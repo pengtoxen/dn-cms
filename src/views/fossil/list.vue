@@ -368,12 +368,12 @@ export default {
       switcher(param).then((ret) => {
         if (ret.data.code === 0) {
           row.is_public = status
-          this.$peng.msgOk(this.$t('common.message.operate_success'))
+          this.$peng.common.msgOk(this.$t('common.message.operate_success'))
         } else {
-          this.$peng.msgInf(this.$t('common.message.operate_fail'))
+          this.$peng.common.msgInf(this.$t('common.message.operate_fail'))
         }
       }).catch(() => {
-        this.$peng.msgInf(this.$t('common.message.operate_fail'))
+        this.$peng.common.msgInf(this.$t('common.message.operate_fail'))
       })
     },
     handleCreate() {
@@ -394,15 +394,15 @@ export default {
         }
         deleteFossil(param).then((ret) => {
           if (ret.data.code === 0) {
-            this.$peng.msgOk(this.$t('common.message.operate_success'))
+            this.$peng.common.msgOk(this.$t('common.message.operate_success'))
             const index = this.list.indexOf(row)
             this.list.splice(index, 1)
           } else {
-            this.$peng.msgOk(this.$t('common.message.operate_fail'))
+            this.$peng.common.msgOk(this.$t('common.message.operate_fail'))
           }
         })
       }).catch(() => {
-        this.$peng.msgInf(this.$t('common.message.operate_fail'))
+        this.$peng.common.msgInf(this.$t('common.message.operate_fail'))
       })
     },
     handleDownload() {
@@ -473,11 +473,11 @@ export default {
       }
     },
     clickHandler: function(file) {
-      if (this.$peng.isPicture(file.name)) {
+      if (this.$peng.common.isPicture(file.name)) {
         this.dialogImageUrl = file.url
         this.dialogVisible = true
       } else {
-        this.$peng.downloadURI(file.url, file.name)
+        this.$peng.common.downloadURI(file.url, file.name)
       }
     }
   }

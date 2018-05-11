@@ -69,7 +69,7 @@ const user = {
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getUserInfo(state.token).then(response => {
-          if (!response.code === 1) {
+          if (response.code === 1) {
             reject('error')
           }
           const data = response.data.data
