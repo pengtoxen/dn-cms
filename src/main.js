@@ -28,12 +28,8 @@ Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-import commonlib from './tools/commonlib'
-import arraylib from './tools/arraylib'
-import datalib from './tools/datalib'
-Vue.use(commonlib)
-Vue.use(arraylib)
-Vue.use(datalib)
+import common from './common'
+Vue.use(common)
 
 Vue.config.productionTip = false
 
