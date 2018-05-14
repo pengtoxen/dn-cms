@@ -98,19 +98,19 @@ export default {
             if (ret.data.code === 0) {
               const uinfo = ret.data.data
               this.$store.dispatch('RefreshUinfo', uinfo).then(() => {
-                this.$peng.common.msgOk(this.$t('common.message.operate_success'))
+                this.$peng.msgOk(this.$t('common.message.operate_success'))
               }).catch(() => {
-                this.$peng.common.msgErr(this.$t('login.login_fail'))
+                this.$peng.msgErr(this.$t('login.login_fail'))
               })
             } else {
               if (ret.data.data.field !== undefined) {
                 this.$refs.uinfo.validateField(ret.data.data.field)
               }
-              this.$peng.common.msgErr(ret.data.msg)
+              this.$peng.msgErr(ret.data.msg)
             }
           })
         } else {
-          this.$peng.common.msgErr(this.$t('common.message.operate_fail'))
+          this.$peng.msgErr(this.$t('common.message.operate_fail'))
           return false
         }
       })
@@ -127,10 +127,10 @@ export default {
       const isJPG = file.type === 'image/jpeg'
       const isLt2M = file.size / 1024 / 1024 < 2
       if (!isJPG) {
-        this.$peng.common.msgErr('上传头像图片只能是 JPG 格式!')
+        this.$peng.msgErr('上传头像图片只能是 JPG 格式!')
       }
       if (!isLt2M) {
-        this.$peng.common.msgErr('上传头像图片大小不能超过 2MB!')
+        this.$peng.msgErr('上传头像图片大小不能超过 2MB!')
       }
       return isJPG && isLt2M
     }

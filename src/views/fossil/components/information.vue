@@ -481,7 +481,7 @@ export default {
           if (!this.defaultData.id) {
             // 验证通过,请求接口
             createFossil(this[formName]).then((ret) => {
-              this.$peng.common.msgOk(this.$t('common.message.operate_success'))
+              this.$peng.msgOk(this.$t('common.message.operate_success'))
               this.loading = false
               this.editRoute.query.id = ret.data.data
               this.$router.push(this.editRoute)
@@ -490,12 +490,12 @@ export default {
             const param = Object.assign({}, { id: this.defaultData.id }, this[formName])
             updateFossil(param).then((ret) => {
               this.renderData(ret.data.data)
-              this.$peng.common.msgOk(this.$t('common.message.operate_success'))
+              this.$peng.msgOk(this.$t('common.message.operate_success'))
               this.loading = false
             })
           }
         } else {
-          this.$peng.common.msgErr(this.$t('common.message.operate_fail'))
+          this.$peng.msgErr(this.$t('common.message.operate_fail'))
           return false
         }
       })
@@ -561,25 +561,25 @@ export default {
         }
         this.attachment.material.push(obj)
       } else {
-        this.$peng.common.msgErr(this.$t('common.message.operate_fail'))
+        this.$peng.msgErr(this.$t('common.message.operate_fail'))
         return false
       }
     },
     beforeAttUpload(ret) {
-      const ext = this.$peng.common.getExt(ret.name)
-      if (this.$peng.array.inArray(ext, ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls', 'gif'])) {
+      const ext = this.$peng.getExt(ret.name)
+      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls', 'gif'])) {
         return true
       } else {
-        this.$peng.common.msgErr(this.$t('common.message.illegal_form'))
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
         return false
       }
     },
     handleAttDownload(file) {
-      if (this.$peng.common.isPicture(file.name)) {
+      if (this.$peng.isPicture(file.name)) {
         this.attDialogImageUrl = file.url
         this.attDialogVisible = true
       } else {
-        this.$peng.common.downloadURI(file.url, file.name)
+        this.$peng.downloadURI(file.url, file.name)
       }
     }
   }

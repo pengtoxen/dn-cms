@@ -56,12 +56,12 @@
       location(param).then((ret) => {
         if (ret.data.code === 0) {
           this.options = ret.data.data
-        // this.$peng.common.msgOk(this.$t('common.message.operate_success'))
+        // this.$peng.msgOk(this.$t('common.message.operate_success'))
         } else {
-          this.$peng.common.msgInf(this.$t('common.message.operate_fail'))
+          this.$peng.msgInf(this.$t('common.message.operate_fail'))
         }
       }).catch(() => {
-        this.$peng.common.msgInf(this.$t('common.message.operate_fail'))
+        this.$peng.msgInf(this.$t('common.message.operate_fail'))
       })
     }
   }

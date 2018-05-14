@@ -91,11 +91,11 @@ export default {
                   this.loading = false
                   this.$router.push({ path: '/' })
                 }).catch(() => {
-                  this.$peng.common.msgErr(this.$t('login.login_fail'))
+                  this.$peng.msgErr(this.$t('login.login_fail'))
                   this.loading = false
                 })
               } else {
-                this.$peng.common.msgErr(this.$t('login.error_username_password'))
+                this.$peng.msgErr(this.$t('login.error_username_password'))
                 this.loading = false
               }
             }

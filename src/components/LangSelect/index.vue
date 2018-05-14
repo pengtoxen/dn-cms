@@ -22,7 +22,7 @@ export default {
     handleSetLanguage(lang) {
       this.$i18n.locale = lang
       this.$store.dispatch('setLanguage', lang)
-      this.$peng.common.msgOk('切换成功')
+      this.$peng.msgOk('切换成功')
     }
   },
   created() {

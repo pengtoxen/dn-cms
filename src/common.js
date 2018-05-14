@@ -125,7 +125,7 @@ exports.install = function(Vue, options) {
       * @returns {Boolean} 判断结果
       */
     isObject: function(val) {
-      return val !== null && typeof val === 'object'
+      return val !== null && Object.prototype.toString.call(val) === '[object Object]'
     },
     /**
       * 判断val是否为数字
@@ -133,7 +133,7 @@ exports.install = function(Vue, options) {
       * @returns {Boolean} 判断结果
       */
     isNumber: function(val) {
-      return (typeof (val) === 'number' || typeof (val) === 'string') && val !== '' && !isNaN(val)
+      return val !== null && Object.prototype.toString.call(val) === '[object Number]'
     },
     /**
       * 判断指定值是否为Date对象
@@ -149,7 +149,39 @@ exports.install = function(Vue, options) {
       * @returns {Boolean} 判断结果
       */
     isArray: function(val) {
-      return Object.prototype.toString.call(val) === '[object Array]'
+      return val !== null && Object.prototype.toString.call(val) === '[object Array]'
+    },
+    /**
+      * 判断指定值是否为function
+      * @param {object} val 要判断的值
+      * @returns {Boolean} 判断结果
+      */
+    isFunction: function(val) {
+      return val !== null && Object.prototype.toString.call(val) === '[object Function]'
+    },
+    /**
+      * 判断指定值是否为String
+      * @param {object} val 要判断的值
+      * @returns {Boolean} 判断结果
+      */
+    isString: function(val) {
+      return val !== null && Object.prototype.toString.call(val) === '[object String]'
+    },
+    /**
+      * 判断指定字符串是否为"true"
+      * @param {string} val 要判断的值
+      * @returns {bool} 判断结果
+      */
+    isBoolean: function(val) {
+      return val !== null && Object.prototype.toString.call(val) === '[object Boolean]'
+    },
+    /**
+      * 判断指定值是否为undefined
+      * @param {object} val 要判断的值
+      * @returns {Boolean} 判断结果
+      */
+    isUndefined: function(val) {
+      return val === undefined || Object.prototype.toString.call(val) === '[object undefined]'
     },
     /**
       * 判断指定值为null或为空字符串
@@ -166,38 +198,6 @@ exports.install = function(Vue, options) {
       */
     isNullOrWhiteSpace: function(val) {
       return this.isNullOrEmpty(this.string.trim(val))
-    },
-    /**
-      * 判断指定值是否为html元素
-      * @param {object} val 要判断的值
-      * @returns {Boolean} 判断结果
-      */
-    isElement: function(val) {
-      return typeof HTMLElement === 'object' ? val instanceof HTMLElement : val && typeof val === 'object' && val !== null && val.nodeType === 1 && typeof val.nodeName === 'string'
-    },
-    /**
-      * 判断指定值是否为function
-      * @param {object} val 要判断的值
-      * @returns {Boolean} 判断结果
-      */
-    isFunction: function(val) {
-      return Object.prototype.toString.call(val) === '[object Function]'
-    },
-    /**
-      * 判断指定值是否为String
-      * @param {object} val 要判断的值
-      * @returns {Boolean} 判断结果
-      */
-    isString: function(val) {
-      return typeof val === 'string' || val instanceof String
-    },
-    /**
-      * 判断指定字符串是否为"true"
-      * @param {string} val 要判断的值
-      * @returns {bool} 判断结果
-      */
-    isBoolean: function(val) {
-      return /^true$/i.test(val)
     },
     /**
       * 判断指定值是否为RegExp对象
@@ -222,14 +222,6 @@ exports.install = function(Vue, options) {
       */
     isNull: function(val) {
       return val === null
-    },
-    /**
-      * 判断指定值是否为undefined
-      * @param {object} val 要判断的值
-      * @returns {Boolean} 判断结果
-      */
-    isUndefined: function(val) {
-      return val === undefined || typeof (val) === 'undefined'
     },
     /**
       * 指定值是否全部为大写
@@ -350,7 +342,7 @@ exports.install = function(Vue, options) {
      * @param {object} obj 要转换为Array的对象
      * @returns {Array} 转换后的数组
      */
-    ToArray: function(obj) {
+    toArray: function(obj) {
       if (!obj) {
         return null
       }
