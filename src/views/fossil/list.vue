@@ -19,6 +19,7 @@
       highlight-current-row
       style="width: 100%"
       stripe
+      mini
       >
       <el-table-column type="expand">
         <template slot-scope="scope">
@@ -401,9 +402,7 @@ export default {
             this.$peng.msgOk(this.$t('common.message.operate_fail'))
           }
         })
-      }).catch(() => {
-        this.$peng.msgInf(this.$t('common.message.operate_fail'))
-      })
+      }).catch(() => {})
     },
     handleDownload() {
       this.downloadLoading = true
