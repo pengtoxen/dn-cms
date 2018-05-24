@@ -1,8 +1,8 @@
 {
-  "name": "vue-element-admin",
-  "version": "3.6.2",
-  "description": "A magical vue admin. Typical templates for enterprise applications. Newest development stack of vue. Lots of awesome features",
-  "author": "Pan <panfree23@gmail.com>",
+  "name": "DN-CMS",
+  "version": "1.0.0",
+  "description": "Decode Nature CMS",
+  "author": "peng <82912094@qq.com>",
   "license": "MIT",
   "private": true,
   "scripts": {

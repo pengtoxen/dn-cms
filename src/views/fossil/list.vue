@@ -5,9 +5,9 @@
       </el-input>
       <Classification :clfClass="clfClass" :clfStyle="clfStyle" :clfClear="clfClear" @fetchClfData="bindClfData" @clearClfData="clearClfData" :clfOption="listQuery.classification"></Classification>
       <GeoData  :geoClass="geoClass" :geoStyle="geoStyle" :geoClear="geoClear" @fetchGeoData="bindGeoData" @clearGeoData="clearGeoData" :geoOption="listQuery.geo_age"></GeoData>
-      <el-button class="filter-item" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('common.table.search')}}</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('common.table.add')}}</el-button>
-      <el-button class="filter-item" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('common.table.export')}}</el-button>
+      <el-button class="filter-item" size="mini" type="primary" v-waves icon="el-icon-search" @click="handleFilter">{{$t('common.table.search')}}</el-button>
+      <el-button class="filter-item" size="mini" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="el-icon-edit">{{$t('common.table.add')}}</el-button>
+      <el-button class="filter-item" size="mini" type="primary" :loading="downloadLoading" v-waves icon="el-icon-download" @click="handleDownload">{{$t('common.table.export')}}</el-button>
     </div>
 
     <el-table :key='tableKey' 
@@ -195,6 +195,9 @@
 </template>
 
 <style>
+  .filter-container input{
+    height: 2.5em !important;
+  }
   #att li:hover{
     cursor: pointer;
   }
@@ -210,22 +213,23 @@
     margin-bottom: 0;
     width: 50%;
   }
+  td.el-table__expanded-cell{
+    padding-left: 2em !important;
+  }
   #detail .title{
     font-size: 1em; 
   }
   #detail .el-collapse-item__header{
     font-size: 1.15em;
-    font-style: italic;
   }
   #detail .el-tabs__item{
     font-size: 1.15em;
-    font-style: italic;
   }
   #detail .el-col {
     border-radius: 0px;
   }
   #detail .row-css {
-    border-bottom: 1px rgba(187, 183, 183, 0.5) dashed;
+    border-bottom: 1px rgba(81, 177, 206, 0.5) dashed;
   }
   /* .col-content {
     border-bottom: 1px gray solid;
