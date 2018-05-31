@@ -238,7 +238,7 @@
                       >
                       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitAtt">上传到服务器</el-button> -->
-                      <div slot="tip" class="el-upload__tip">只能上传文本和图片类文件，且不超过2MB</div>
+                      <div slot="tip" class="el-upload__tip">只能上传文件和图片(文件不超过15MB,图片不超过1MB)</div>
                     </el-upload>
                     <el-dialog :visible.sync="attDialogVisible">
                       <img width="100%" :src="attDialogImageUrl" alt="">
@@ -538,16 +538,22 @@ export default {
     handlePhotoSuccess(ret) {},
     handleRPhotoSuccess(ret) {},
     beforePhotoUpload(ret) {
-      const ext = this.$peng.getExt(ret.name)
-      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'gif']) === false) {
+      if (!this.$peng.isPicture(ret.name)) {
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
+        return false
+      }
+      if (!this.$peng.overPicSize(ret.name, ret.size)) {
         this.$peng.msgErr(this.$t('common.message.illegal_form'))
         return false
       }
       return true
     },
     beforeRPhotoUpload(ret) {
-      const ext = this.$peng.getExt(ret.name)
-      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'gif']) === false) {
+      if (!this.$peng.isPicture(ret.name)) {
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
+        return false
+      }
+      if (!this.$peng.overPicSize(ret.name, ret.size)) {
         this.$peng.msgErr(this.$t('common.message.illegal_form'))
         return false
       }
@@ -563,9 +569,20 @@ export default {
     handleAttSuccess(ret) {},
     beforeAttUpload(ret) {
       const ext = this.$peng.getExt(ret.name)
-      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls', 'gif']) === false) {
+      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'gif', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls']) === false) {
         this.$peng.msgErr(this.$t('common.message.illegal_form'))
         return false
+      }
+      if (this.$peng.isPicture(ret.name)) {
+        if (!this.$peng.overPicSize(ret.name, ret.size)) {
+          this.$peng.msgErr(this.$t('common.message.illegal_form'))
+          return false
+        }
+      } else {
+        if (!this.$peng.overFileSize(ret.name, ret.size)) {
+          this.$peng.msgErr(this.$t('common.message.illegal_form'))
+          return false
+        }
       }
       return true
     },
@@ -581,7 +598,8 @@ export default {
       const cname = request.data.name
       const file = request.file
       const action = request.action
-      const keyname = this.$peng.uuidv4() + '.' + this.$peng.getExt(file.name)
+      const ext = this.$peng.getExt(file.name)
+      const keyname = ext + '/' + this.$peng.uuidv4() + '.' + ext
       getToken()
         .then(response => {
           this.upToken = response.data.data

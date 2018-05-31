@@ -56,6 +56,26 @@ exports.install = function(Vue, options) {
       }
       return false
     },
+    isFile: function(file) {
+      const ext = this.getExt(file)
+      const exts = ['png', 'jpg', 'jpeg', 'gif']
+      if (this.inArray(ext, exts) === false) {
+        return true
+      }
+      return false
+    },
+    overPicSize: function(file, size = 1048576, max = 1048576) {
+      if (this.isPicture(file) && size <= max) {
+        return true
+      }
+      return false
+    },
+    overFileSize: function(file, size = 15728640, max = 15728640) {
+      if (this.isFile(file) && size <= max) {
+        return true
+      }
+      return false
+    },
     isWord: function(file) {
       const ext = this.getExt(file)
       const exts = ['docx', 'doc']
