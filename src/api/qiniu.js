@@ -1,8 +1,13 @@
 import request from '@/utils/request'
+import axios from 'axios'
 
 export function getToken() {
   return request({
-    url: '/qiniu/upload/token', // 假地址 自行替换
+    url: '/admin/upload/token',
     method: 'get'
   })
+}
+
+export function upload(action, param, config) {
+  return axios.post(action, param, config)
 }

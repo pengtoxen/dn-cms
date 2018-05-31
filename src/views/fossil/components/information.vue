@@ -144,7 +144,10 @@
                       :on-preview="handlePictureCardPreview"
                       :on-remove="handlePhotoRemove"
                       :on-success="handlePhotoSuccess"
-                      :before-upload="beforePhotoUpload">
+                      :before-upload="beforePhotoUpload"
+                      :http-request="uploadQiniu"
+                      :data="{name:'photo'}"
+                      >
                       <i class="el-icon-plus"></i>
                     </el-upload>
                   <el-dialog :visible.sync="dialogVisible">
@@ -161,7 +164,10 @@
                       :on-preview="handlePictureCardPreview"
                       :on-remove="handleRPhotoRemove"
                       :on-success="handleRPhotoSuccess"
-                      :before-upload="beforeRPhotoUpload">
+                      :before-upload="beforeRPhotoUpload"
+                      :http-request="uploadQiniu"
+                      :data="{name:'rphoto'}"
+                      >
                       <i class="el-icon-plus"></i>
                     </el-upload>
                     <el-dialog :visible.sync="dialogVisible">
@@ -226,10 +232,13 @@
                       :on-remove="handleAttRemove"
                       :on-success="handleAttSuccess"
                       :before-upload="beforeAttUpload"
-                      :auto-upload="true">
+                      :auto-upload="true"
+                      :http-request="uploadQiniu"
+                      :data="{name:'att'}"
+                      >
                       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitAtt">上传到服务器</el-button> -->
-                      <div slot="tip" class="el-upload__tip">只能上传文本和图片类文件，且不超过5MB</div>
+                      <div slot="tip" class="el-upload__tip">只能上传文本和图片类文件，且不超过2MB</div>
                     </el-upload>
                     <el-dialog :visible.sync="attDialogVisible">
                       <img width="100%" :src="attDialogImageUrl" alt="">
@@ -251,11 +260,8 @@
 <script>
 import Tinymce from '@/components/Tinymce'
 import MDinput from '@/components/MDinput'
-import Multiselect from 'vue-multiselect' // 使用的一个多选框组件，element-ui的select不能满足所有需求
-import 'vue-multiselect/dist/vue-multiselect.min.css' // 多选框组件css
-import Sticky from '@/components/Sticky' // 粘性header组件
-// import { validateURL } from '@/utils/validate'
 import { createFossil, updateFossil, fetchFossil } from '@/api/fossil'
+import { getToken, upload } from '@/api/qiniu'
 import Location from '@/components/Location'
 import Age from '@/components/GeoData'
 import classification from '@/components/ClassficationData'
@@ -268,7 +274,7 @@ const defaultForm = {
 
 export default {
   name: 'information',
-  components: { Tinymce, MDinput, Multiselect, Sticky, Location, Age, classification },
+  components: { Tinymce, MDinput, Location, Age, classification },
   props: {
     isEdit: {
       type: Boolean,
@@ -277,6 +283,7 @@ export default {
   },
   data() {
     return {
+      upToken: '',
       defaultData: defaultForm,
       defaultRule: {},
       fetchSuccess: true,
@@ -391,6 +398,7 @@ export default {
       },
       uploadUrl: process.env.UPLOAD_URL,
       baseApi: process.env.BASE_API,
+      qiniuUrl: process.env.QINIU_URL,
       // 资源获得默认值
       dialogImageUrl: '',
       dialogVisible: false,
@@ -527,24 +535,24 @@ export default {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
     },
-    handlePhotoSuccess(ret) {
-      if (ret.code === 0) {
-        const obj = {
-          url: this.baseApi + ret.data.data.url
-        }
-        this.photoInfo.photo.push(obj)
+    handlePhotoSuccess(ret) {},
+    handleRPhotoSuccess(ret) {},
+    beforePhotoUpload(ret) {
+      const ext = this.$peng.getExt(ret.name)
+      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'gif']) === false) {
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
+        return false
       }
+      return true
     },
-    handleRPhotoSuccess(ret) {
-      if (ret.code === 0) {
-        const obj = {
-          url: this.baseApi + ret.data.data.url
-        }
-        this.photoInfo.rphoto.push(obj)
+    beforeRPhotoUpload(ret) {
+      const ext = this.$peng.getExt(ret.name)
+      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'gif']) === false) {
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
+        return false
       }
+      return true
     },
-    beforePhotoUpload(ret) {},
-    beforeRPhotoUpload(ret) {},
     // 附件相关操作
     // submitAtt() {
     //   this.$refs.att.submit()
@@ -552,27 +560,14 @@ export default {
     handleAttRemove(file, fileList) {
       this.attachment.material = fileList
     },
-    handleAttSuccess(ret) {
-      console.log(ret)
-      if (ret.code === 0) {
-        const obj = {
-          name: ret.data.data.name,
-          url: this.baseApi + ret.data.data.url
-        }
-        this.attachment.material.push(obj)
-      } else {
-        this.$peng.msgErr(this.$t('common.message.operate_fail'))
-        return false
-      }
-    },
+    handleAttSuccess(ret) {},
     beforeAttUpload(ret) {
       const ext = this.$peng.getExt(ret.name)
-      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls', 'gif'])) {
-        return true
-      } else {
+      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls', 'gif']) === false) {
         this.$peng.msgErr(this.$t('common.message.illegal_form'))
         return false
       }
+      return true
     },
     handleAttDownload(file) {
       if (this.$peng.isPicture(file.name)) {
@@ -581,6 +576,54 @@ export default {
       } else {
         this.$peng.downloadURI(file.url, file.name)
       }
+    },
+    uploadQiniu(request) {
+      const cname = request.data.name
+      const file = request.file
+      const action = request.action
+      const keyname = this.$peng.uuidv4() + '.' + this.$peng.getExt(file.name)
+      getToken()
+        .then(response => {
+          this.upToken = response.data.data
+          const config = {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          }
+          const formData = new FormData()
+          formData.append('file', file)
+          formData.append('token', this.upToken)
+          formData.append('key', keyname)
+          upload(action, formData, config)
+            .then(response => {
+              if (response.data.code === 0) {
+                if (cname === 'att') {
+                  const obj = {
+                    name: response.data.data.fname,
+                    url: this.qiniuUrl + '/' + response.data.data.fkey
+                  }
+                  this.attachment.material.push(obj)
+                } else if (cname === 'photo') {
+                  const obj = {
+                    url: this.qiniuUrl + '/' + response.data.data.fkey
+                  }
+                  this.photoInfo.photo.push(obj)
+                } else if (cname === 'rphoto') {
+                  const obj = {
+                    url: this.qiniuUrl + '/' + response.data.data.fkey
+                  }
+                  this.photoInfo.rphoto.push(obj)
+                }
+              } else {
+                this.$peng.msgErr(this.$t('common.message.operate_fail'))
+                return false
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
