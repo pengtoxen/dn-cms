@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function fossilClassification(data) {
   return request({
-    url: 'admin/open/fClassification',
+    url: 'Admin/Open/fClassification',
     method: 'post',
     data
   })
@@ -10,7 +10,7 @@ export function fossilClassification(data) {
 
 export function geoAge(data) {
   return request({
-    url: 'admin/open/geoAge',
+    url: 'Admin/Open/geoAge',
     method: 'post',
     data
   })
@@ -18,7 +18,7 @@ export function geoAge(data) {
 
 export function location(data) {
   return request({
-    url: 'admin/open/location',
+    url: 'Admin/Open/location',
     method: 'post',
     data
   })

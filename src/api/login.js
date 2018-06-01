@@ -6,7 +6,7 @@ export function loginByUsername(username, password) {
     password
   }
   return request({
-    url: 'admin/login/login',
+    url: 'Admin/Login/login',
     method: 'post',
     data
   })
@@ -14,7 +14,7 @@ export function loginByUsername(username, password) {
 
 export function getUserInfo(token) {
   return request({
-    url: 'admin/user/info',
+    url: 'Admin/User/info',
     method: 'post'
   })
 }

@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export function getToken() {
   return request({
-    url: '/admin/upload/token',
+    url: '/Admin/Upload/token',
     method: 'get'
   })
 }
