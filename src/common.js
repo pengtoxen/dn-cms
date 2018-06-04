@@ -51,7 +51,7 @@ exports.install = function(Vue, options) {
     isPicture: function(file) {
       const ext = this.getExt(file)
       const exts = ['png', 'jpg', 'jpeg', 'gif']
-      if (this.inArray(ext, exts)) {
+      if (this.inArray(ext, exts) !== false) {
         return true
       }
       return false
@@ -79,7 +79,7 @@ exports.install = function(Vue, options) {
     isWord: function(file) {
       const ext = this.getExt(file)
       const exts = ['docx', 'doc']
-      if (this.inArray(ext, exts)) {
+      if (this.inArray(ext, exts) !== false) {
         return true
       }
       return false

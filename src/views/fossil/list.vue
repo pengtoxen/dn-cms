@@ -294,7 +294,7 @@ export default {
           id: '0'
         }
       },
-      baseApi: process.env.BASE_API,
+      qiniuApi: process.env.QINIU_API,
       dialogDetailVisible: false,
       detail: {
         id: undefined,
@@ -448,26 +448,26 @@ export default {
       this.dialogDetailVisible = true
       this.detail = Object.create(data)
       if (this.detail.photo && typeof this.detail.photo === 'string') {
-        const baseApi = this.baseApi
+        const qiniuApi = this.qiniuApi
         this.detail.photo = JSON.parse(this.detail.photo)
         this.detail.photo = this.detail.photo.map(function(item) {
-          item.url = baseApi + item.url
+          item.url = qiniuApi + item.url
           return item
         })
       }
       if (this.detail.restore_photo && typeof this.detail.restore_photo === 'string') {
-        const baseApi = this.baseApi
+        const qiniuApi = this.qiniuApi
         this.detail.restore_photo = JSON.parse(this.detail.restore_photo)
         this.detail.restore_photo = this.detail.restore_photo.map(function(item) {
-          item.url = baseApi + item.url
+          item.url = qiniuApi + item.url
           return item
         })
       }
       if (this.detail.material && typeof this.detail.material === 'string') {
-        const baseApi = this.baseApi
+        const qiniuApi = this.qiniuApi
         this.detail.material = JSON.parse(this.detail.material)
         this.detail.material = this.detail.material.map(function(item) {
-          item.url = baseApi + item.url
+          item.url = qiniuApi + item.url
           return item
         })
       }

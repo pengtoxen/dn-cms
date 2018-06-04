@@ -32,7 +32,9 @@
                     :show-file-list="false"
                     list-type="picture-card"
                     :on-success="handleSuccess"
-                    :before-upload="beforeUpload">
+                    :before-upload="beforeUpload"
+                    :http-request="uploadQiniu"
+                    >
                     <img v-if="uinfo.avatar" :src="uinfo.avatar" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                   </el-upload>
@@ -52,6 +54,7 @@
 <script>
 import store from '@/store'
 import { edit } from '@/api/user'
+import { getToken, upload } from '@/api/qiniu'
 
 export default {
   name: 'info',
@@ -80,9 +83,10 @@ export default {
         ]
       },
       uploadUrl: process.env.UPLOAD_URL,
-      baseApi: process.env.BASE_API,
+      qiniuApi: process.env.QINIU_URL,
       dialogImageUrl: '',
-      dialogVisible: false
+      dialogVisible: false,
+      upToken: ''
     }
   },
   computed: {},
@@ -118,21 +122,49 @@ export default {
     resetForm(formName) {
       this.$refs[formName].resetFields()
     },
-    handleSuccess(ret, file) {
-      if (ret.code === 0) {
-        this.uinfo.avatar = this.baseApi + ret.data.data.url
-      }
-    },
+    handleSuccess(ret, file) {},
     beforeUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG) {
-        this.$peng.msgErr('上传头像图片只能是 JPG 格式!')
+      if (!this.$peng.isPicture(file.name)) {
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
+        return false
       }
-      if (!isLt2M) {
-        this.$peng.msgErr('上传头像图片大小不能超过 2MB!')
+      if (!this.$peng.overPicSize(file.name, file.size)) {
+        this.$peng.msgErr(this.$t('common.message.illegal_form'))
+        return false
       }
-      return isJPG && isLt2M
+      return true
+    },
+    uploadQiniu(request) {
+      const file = request.file
+      const action = request.action
+      const ext = this.$peng.getExt(file.name)
+      const keyname = 'avatar/' + this.$peng.uuidv4() + '.' + ext
+      getToken()
+        .then(response => {
+          this.upToken = response.data.data
+          const config = {
+            headers: { 'Content-Type': 'multipart/form-data' }
+          }
+          const formData = new FormData()
+          formData.append('file', file)
+          formData.append('token', this.upToken)
+          formData.append('key', keyname)
+          upload(action, formData, config)
+            .then(response => {
+              if (response.data.code === 0) {
+                this.uinfo.avatar = this.qiniuApi + '/' + response.data.data.fkey
+              } else {
+                this.$peng.msgErr(this.$t('common.message.operate_fail'))
+                return false
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
