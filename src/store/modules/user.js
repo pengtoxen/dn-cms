@@ -41,7 +41,7 @@ const user = {
       state.username = username
     },
     SET_AVATAR: (state, avatar) => {
-      state.avatar = process.env.QINIU_API + '/' + avatar
+      state.avatar = process.env.QINIU_URL + '/' + avatar
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
