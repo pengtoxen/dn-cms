@@ -4,45 +4,60 @@
     <el-tabs type="border-card">
       <!-- 护照信息 -->
       <el-tab-pane label="护照信息">
-        <el-container  class="create-main-container">
+        <el-container class="create-main-container">
           <el-main class="info-container">
             <div class="info-container">
-                <el-form :model="passport" :rules="passportRules" ref="passport" label-width="100px">
-                  <el-form-item :label="$t('fossil.serial_no')" label-position="right">
-                    <el-col :span="8">
-                      <el-input v-model="passport.serial_no" :disabled="true"></el-input>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item :label="$t('fossil.name_zh')" label-position="right" prop="name_zh">
-                    <el-col :span="8">
-                      <el-input v-model="passport.name_zh" clearable></el-input>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item :label="$t('fossil.name_en')" label-position="right" prop="name_en">
-                    <el-col :span="8">
-                      <el-input v-model="passport.name_en" clearable></el-input>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item :label="$t('fossil.owner')" label-position="right" prop="owner">
-                    <el-col :span="8">
-                      <el-input v-model="passport.owner" clearable></el-input>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item :label="$t('fossil.get_time')" label-position="right" prop="get_time">
-                    <el-col :span="8">
-                      <el-date-picker type="date"  placeholder="选择日期" v-model="passport.get_time" align="right" style="width: 100%;" :picker-options="pickerOptions" clearable></el-date-picker>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item :label="$t('fossil.classification')" label-position="right" prop="classification">
-                    <el-col :span="8">
-                      <classification :clfOption="passport.classification" @fetchClfData="bindClfData"></classification>
-                    </el-col>
-                  </el-form-item>
-                  <el-form-item>
-                    <el-button type="primary" @click="submitForm('passport')">保存</el-button>
-                    <el-button @click="resetForm('passport')">重置</el-button>
-                  </el-form-item>
-                </el-form>
+              <el-form :model="passport" :rules="passportRules" ref="passport" label-width="100px">
+                <el-form-item :label="$t('fossil.serial_no')" label-position="right">
+                  <el-col :span="8">
+                    <el-input v-model="passport.serial_no" :disabled="true"></el-input>
+                  </el-col>
+                </el-form-item>
+                <el-form-item :label="$t('fossil.name_zh')" label-position="right" prop="name_zh">
+                  <el-col :span="8">
+                    <el-input v-model="passport.name_zh" clearable></el-input>
+                  </el-col>
+                </el-form-item>
+                <el-form-item :label="$t('fossil.name_en')" label-position="right" prop="name_en">
+                  <el-col :span="8">
+                    <el-input v-model="passport.name_en" clearable></el-input>
+                  </el-col>
+                </el-form-item>
+                <el-form-item :label="$t('fossil.owner')" label-position="right" prop="owner">
+                  <el-col :span="8">
+                    <el-input v-model="passport.owner" clearable></el-input>
+                  </el-col>
+                </el-form-item>
+                <el-form-item :label="$t('fossil.get_time')" label-position="right" prop="get_time">
+                  <el-col :span="8">
+                    <el-date-picker
+                      type="date"
+                      placeholder="选择日期"
+                      v-model="passport.get_time"
+                      align="right"
+                      style="width: 100%;"
+                      :picker-options="pickerOptions"
+                      clearable
+                    ></el-date-picker>
+                  </el-col>
+                </el-form-item>
+                <el-form-item
+                  :label="$t('fossil.classification')"
+                  label-position="right"
+                  prop="classification"
+                >
+                  <el-col :span="8">
+                    <classification
+                    :clfOption="passport.classification"
+                    @fetchClfData="bindClfData"
+                    ></classification>
+                  </el-col>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="submitForm('passport')">保存</el-button>
+                  <el-button @click="resetForm('passport')">重置</el-button>
+                </el-form-item>
+              </el-form>
             </div>
           </el-main>
         </el-container>
@@ -50,7 +65,7 @@
 
       <!-- 标记信息(类型与特征信息) -->
       <el-tab-pane label="标记信息(类型与特征信息)">
-        <el-container  class="create-main-container">
+        <el-container class="create-main-container">
           <el-main class="info-container">
             <div class="info-container">
               <el-form :model="identify" :rules="identifyRules" ref="identify" label-width="100px">
@@ -69,12 +84,20 @@
                     <Age :geoOption="identify.geo_age" @fetchGeoData="bindGeoData"></Age>
                   </el-col>
                 </el-form-item>
-                <el-form-item :label="$t('fossil.geo_layer')" label-position="right" prop="geo_layer">
+                <el-form-item
+                  :label="$t('fossil.geo_layer')"
+                  label-position="right"
+                  prop="geo_layer"
+                >
                   <el-col :span="8">
                     <el-input v-model="identify.geo_layer"></el-input>
                   </el-col>
                 </el-form-item>
-                <el-form-item :label="$t('fossil.longitude')" label-position="right" prop="longitude">
+                <el-form-item
+                  :label="$t('fossil.longitude')"
+                  label-position="right"
+                  prop="longitude"
+                >
                   <el-col :span="8">
                     <el-input v-model.number="identify.longitude"></el-input>
                   </el-col>
@@ -101,21 +124,32 @@
 
       <!-- 基本特征特性描述信息 -->
       <el-tab-pane label="基本特征特性描述信息">
-        <el-container  class="create-main-container">
+        <el-container class="create-main-container">
           <el-main class="info-container">
             <div class="info-container">
-              <el-form :model="description" :rules="descriptionRules" ref="description" label-width="100px">
+              <el-form
+                :model="description"
+                :rules="descriptionRules"
+                ref="description"
+                label-width="100px"
+              >
                 <el-form-item :label="$t('fossil.abstract')" label-position="right">
                   <el-col :span="18">
-                    <el-input type="textarea" class="article-textarea" :rows="1" autosize placeholder="请输入内容" v-model="description.abstract">
-                    </el-input>
+                    <el-input
+                      type="textarea"
+                      class="article-textarea"
+                      :rows="1"
+                      autosize
+                      placeholder="请输入内容"
+                      v-model="description.abstract"
+                    ></el-input>
                     <span class="word-counter" v-show="contentShortLength">{{contentShortLength}}字</span>
                   </el-col>
                 </el-form-item>
                 <el-form-item :label="$t('fossil.description')" label-position="right">
                   <el-col :span="18">
                     <div class="editor-container">
-                      <tinymce :height=500 ref="editor" v-model="description.description"></tinymce>
+                      <tinymce :height="500" ref="editor" v-model="description.description"></tinymce>
                     </div>
                   </el-col>
                 </el-form-item>
@@ -131,7 +165,7 @@
 
       <!-- 图文描述信息 -->
       <el-tab-pane label="图文描述信息">
-        <el-container  class="create-main-container">
+        <el-container class="create-main-container">
           <el-main class="info-container">
             <div class="info-container">
               <el-form :model="photoInfo" ref="photoInfo" label-width="100px">
@@ -147,12 +181,12 @@
                       :before-upload="beforePhotoUpload"
                       :http-request="uploadQiniu"
                       :data="{name:'photo'}"
-                      >
+                    >
                       <i class="el-icon-plus"></i>
                     </el-upload>
-                  <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="">
-                  </el-dialog>
+                    <el-dialog :visible.sync="dialogVisible">
+                      <img width="100%" :src="dialogImageUrl" alt>
+                    </el-dialog>
                   </el-col>
                 </el-form-item>
                 <el-form-item :label="$t('fossil.restore_photo')" label-position="right">
@@ -167,11 +201,11 @@
                       :before-upload="beforeRPhotoUpload"
                       :http-request="uploadQiniu"
                       :data="{name:'rphoto'}"
-                      >
+                    >
                       <i class="el-icon-plus"></i>
                     </el-upload>
                     <el-dialog :visible.sync="dialogVisible">
-                      <img width="100%" :src="dialogImageUrl" alt="">
+                      <img width="100%" :src="dialogImageUrl" alt>
                     </el-dialog>
                   </el-col>
                 </el-form-item>
@@ -186,7 +220,7 @@
 
       <!-- 收藏单位信息 -->
       <el-tab-pane label="收藏单位信息">
-        <el-container  class="create-main-container">
+        <el-container class="create-main-container">
           <el-main class="info-container">
             <div class="info-container">
               <el-form :model="storage" :rules="storageRules" ref="storage" label-width="100px">
@@ -202,7 +236,13 @@
                 </el-form-item>
                 <el-form-item :label="$t('fossil.num')" label-position="right" prop="num">
                   <el-col :span="8">
-                    <el-input-number v-model="storage.num" @change="handleStorageNum" :min="1" :max="200" label="资源数量"></el-input-number>
+                    <el-input-number
+                      v-model="storage.num"
+                      @change="handleStorageNum"
+                      :min="1"
+                      :max="200"
+                      label="资源数量"
+                    ></el-input-number>
                   </el-col>
                 </el-form-item>
                 <el-form-item>
@@ -217,7 +257,7 @@
 
       <!-- 相关资料信息 -->
       <el-tab-pane label="相关资料信息">
-        <el-container  class="create-main-container">
+        <el-container class="create-main-container">
           <el-main class="info-container">
             <div class="info-container">
               <el-form :model="attachment" ref="attachment" label-width="100px">
@@ -235,13 +275,13 @@
                       :auto-upload="true"
                       :http-request="uploadQiniu"
                       :data="{name:'att'}"
-                      >
+                    >
                       <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                       <!-- <el-button style="margin-left: 10px;" size="small" type="success" @click="submitAtt">上传到服务器</el-button> -->
                       <div slot="tip" class="el-upload__tip">只能上传文件和图片(文件不超过15MB,图片不超过1MB)</div>
                     </el-upload>
                     <el-dialog :visible.sync="attDialogVisible">
-                      <img width="100%" :src="attDialogImageUrl" alt="">
+                      <img width="100%" :src="attDialogImageUrl" alt>
                     </el-dialog>
                   </el-col>
                 </el-form-item>
@@ -309,12 +349,8 @@ export default {
           { required: true, message: '必填', trigger: 'blur' },
           { min: 3, max: 20, message: '长度在 3 到 10 个字符', trigger: 'blur' }
         ],
-        get_time: [
-          { type: 'date', message: '请选择日期', trigger: 'change' }
-        ],
-        classification: [
-          { required: true, message: '必填', trigger: 'change' }
-        ]
+        get_time: [{ type: 'date', message: '请选择日期', trigger: 'change' }],
+        classification: [{ required: true, message: '必填', trigger: 'change' }]
       },
       identify: {
         district: '',
@@ -326,21 +362,18 @@ export default {
         altitude: ''
       },
       identifyRules: {
-        district: [
-          { message: '必填', trigger: 'change' }
-        ],
-        geo_age: [
-          { message: '必填', trigger: 'change' }
-        ],
+        district: [{ message: '必填', trigger: 'change' }],
+        geo_age: [{ message: '必填', trigger: 'change' }],
         geo_layer: [
           { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
         ],
         longitude: [
-          { type: 'number', message: '必须为数字值', trigger: 'blur' }],
+          { type: 'number', message: '必须为数字值', trigger: 'blur' }
+        ],
         latitude: [
-          { type: 'number', message: '必须为数字值', trigger: 'blur' }],
-        altitude: [
-          { type: 'number', message: '必须为数字值', trigger: 'blur' }]
+          { type: 'number', message: '必须为数字值', trigger: 'blur' }
+        ],
+        altitude: [{ type: 'number', message: '必须为数字值', trigger: 'blur' }]
       },
       description: {
         abstract: '',
@@ -364,8 +397,7 @@ export default {
         num: 1
       },
       storageRules: {
-        num: [
-          { type: 'number', message: '必须为数字值', trigger: 'blur' }]
+        num: [{ type: 'number', message: '必须为数字值', trigger: 'blur' }]
       },
       attachment: {
         material: []
@@ -375,26 +407,30 @@ export default {
         // disabledDate(time) {
         //   return time.getTime() < Date.now()
         // },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date())
+        shortcuts: [
+          {
+            text: '今天',
+            onClick(picker) {
+              picker.$emit('pick', new Date())
+            }
+          },
+          {
+            text: '昨天',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', date)
+            }
+          },
+          {
+            text: '一周前',
+            onClick(picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', date)
+            }
           }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24)
-            picker.$emit('pick', date)
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date()
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-            picker.$emit('pick', date)
-          }
-        }]
+        ]
       },
       uploadUrl: process.env.UPLOAD_URL,
       baseApi: process.env.BASE_API,
@@ -488,15 +524,19 @@ export default {
         if (valid) {
           if (!this.defaultData.id) {
             // 验证通过,请求接口
-            createFossil(this[formName]).then((ret) => {
+            createFossil(this[formName]).then(ret => {
               this.$peng.msgOk(this.$t('common.message.operate_success'))
               this.loading = false
               this.editRoute.query.id = ret.data.data
               this.$router.push(this.editRoute)
             })
           } else {
-            const param = Object.assign({}, { id: this.defaultData.id }, this[formName])
-            updateFossil(param).then((ret) => {
+            const param = Object.assign(
+              {},
+              { id: this.defaultData.id },
+              this[formName]
+            )
+            updateFossil(param).then(ret => {
               this.renderData(ret.data.data)
               this.$peng.msgOk(this.$t('common.message.operate_success'))
               this.loading = false
@@ -569,7 +609,20 @@ export default {
     handleAttSuccess(ret) {},
     beforeAttUpload(ret) {
       const ext = this.$peng.getExt(ret.name)
-      if (this.$peng.inArray(ext, ['png', 'jpg', 'jpeg', 'gif', 'pdf', 'txt', 'docx', 'doc', 'xlsx', 'xls']) === false) {
+      if (
+        this.$peng.inArray(ext, [
+          'png',
+          'jpg',
+          'jpeg',
+          'gif',
+          'pdf',
+          'txt',
+          'docx',
+          'doc',
+          'xlsx',
+          'xls'
+        ]) === false
+      ) {
         this.$peng.msgErr(this.$t('common.message.illegal_form'))
         return false
       }

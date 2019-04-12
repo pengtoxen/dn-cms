@@ -15,8 +15,8 @@
 </template>
  
 <script>
-  import { regionDataPlus } from 'element-china-area-data'
-  import { location } from '@/api/common'
+  // import { regionDataPlus } from 'element-china-area-data'
+  import { location as Location } from '@/api/common'
   export default {
     props: {
       locClass: {
@@ -35,7 +35,7 @@
     data() {
       return {
         bindOption: [],
-        options: regionDataPlus
+        options: []
       }
     },
     methods: {
@@ -53,16 +53,25 @@
     },
     created() {
       const param = {}
-      location(param).then((ret) => {
-        if (ret.data.code === 0) {
-          this.options = ret.data.data
-        // this.$peng.msgOk(this.$t('common.message.operate_success'))
-        } else {
+      const location = localStorage.getItem('location')
+      if (!location) {
+        Location(param).then((ret) => {
+          if (ret.data.code === 0) {
+            this.options = ret.data.data
+            localStorage.setItem(
+              'location',
+              JSON.stringify(ret.data.data)
+            )
+            // this.$peng.msgOk(this.$t('common.message.operate_success'))
+          } else {
+            this.$peng.msgInf(this.$t('common.message.operate_fail'))
+          }
+        }).catch(() => {
           this.$peng.msgInf(this.$t('common.message.operate_fail'))
-        }
-      }).catch(() => {
-        this.$peng.msgInf(this.$t('common.message.operate_fail'))
-      })
+        })
+      } else {
+        this.options = JSON.parse(location)
+      }
     }
   }
 </script>
