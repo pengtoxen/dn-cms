@@ -93,12 +93,32 @@ export const asyncRouterMap = [
       {
         path: 'fossil/edit',
         component: _import('fossil/edit'),
-        name: 'edit',
+        name: 'fossil-edit',
         hidden: true,
         meta: {
-          title: 'edit',
+          title: 'fossil-edit',
           icon: 'table'
-        }
+        },
+        children: [
+          {
+            path: '/user/edit/edit1',
+            component: _import('user/info'),
+            name: 'edit1',
+            meta: {
+              title: 'user-edit1',
+              icon: 'table'
+            }
+          },
+          {
+            path: '/user/edit/edit2',
+            component: _import('user/info'),
+            name: 'edit2',
+            meta: {
+              title: 'user-edit2',
+              icon: 'table'
+            }
+          }
+        ]
       }
     ]
   },
@@ -112,13 +132,33 @@ export const asyncRouterMap = [
     },
     children: [
       {
-        path: 'edit',
+        path: '/user/edit',
         component: _import('user/info'),
-        name: 'edit',
+        name: 'user-edit',
         meta: {
-          title: 'edit',
+          title: 'user-edit',
           icon: 'table'
-        }
+        },
+        children: [
+          {
+            path: '/user/edit/edit1',
+            component: _import('user/info'),
+            name: 'edit1',
+            meta: {
+              title: 'user-edit1',
+              icon: 'table'
+            }
+          },
+          {
+            path: '/user/edit/edit2',
+            component: _import('user/info'),
+            name: 'edit2',
+            meta: {
+              title: 'user-edit2',
+              icon: 'table'
+            }
+          }
+        ]
       }
     ]
   },

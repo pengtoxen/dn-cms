@@ -24,12 +24,17 @@ export default {
   components: { SidebarItem, ScrollBar },
   computed: {
     ...mapGetters([
+      // 映射 this.permission_routers 为 store.getters.permission_routers
       'permission_routers',
+      // 映射 this.sidebar 为 store.getters.sidebar
       'sidebar'
     ]),
     isCollapse() {
       return !this.sidebar.opened
     }
+  },
+  create() {
+    alert(1)
   }
 }
 </script>
