@@ -98,27 +98,7 @@ export const asyncRouterMap = [
         meta: {
           title: 'fossil-edit',
           icon: 'table'
-        },
-        children: [
-          {
-            path: '/user/edit/edit1',
-            component: _import('user/info'),
-            name: 'edit1',
-            meta: {
-              title: 'user-edit1',
-              icon: 'table'
-            }
-          },
-          {
-            path: '/user/edit/edit2',
-            component: _import('user/info'),
-            name: 'edit2',
-            meta: {
-              title: 'user-edit2',
-              icon: 'table'
-            }
-          }
-        ]
+        }
       }
     ]
   },

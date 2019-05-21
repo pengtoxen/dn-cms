@@ -32,9 +32,6 @@ export default {
     isCollapse() {
       return !this.sidebar.opened
     }
-  },
-  create() {
-    alert(1)
   }
 }
 </script>
