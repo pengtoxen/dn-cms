@@ -68,7 +68,8 @@ export const asyncRouterMap = [
     name: 'specimen',
     meta: {
       title: 'specimen',
-      icon: 'table'
+      icon: 'table',
+      children: true
     },
     children: [
       {
@@ -108,7 +109,8 @@ export const asyncRouterMap = [
     name: 'user',
     meta: {
       title: 'user',
-      icon: 'table'
+      icon: 'table',
+      children: true
     },
     children: [
       {
@@ -117,7 +119,8 @@ export const asyncRouterMap = [
         name: 'user-edit',
         meta: {
           title: 'user-edit',
-          icon: 'table'
+          icon: 'table',
+          children: true
         },
         children: [
           {

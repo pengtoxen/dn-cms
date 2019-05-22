@@ -18,7 +18,7 @@ const whiteList = ['/login', '/authredirect']// no redirect whitelist
 
 // 全局路由守卫
 router.beforeEach((to, from, next) => {
-  NProgress.start() // start progress bar
+  // NProgress.start() // start progress bar
   if (getToken()) { // determine if there has token
     /* has token*/
     if (to.path === '/login') {
@@ -54,11 +54,11 @@ router.beforeEach((to, from, next) => {
       next()
     } else {
       next('/login') // 否则全部重定向到登录页
-      NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
+      // NProgress.done() // if current page is login will not trigger afterEach hook, so manually handle it
     }
   }
 })
 
 router.afterEach(() => {
-  NProgress.done() // finish progress bar
+  // NProgress.done() // finish progress bar
 })
